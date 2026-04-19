@@ -4,15 +4,16 @@ import mysql.connector
 
 app = Flask(__name__)
 CORS(app)
+import os
 
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="airline_management"
+        host=os.environ.get("MYSQLHOST", "localhost"),
+        user=os.environ.get("MYSQLUSER", "root"),
+        password=os.environ.get("MYSQLPASSWORD", ""),
+        database=os.environ.get("MYSQLDATABASE", "airline_management"),
+        port=int(os.environ.get("MYSQLPORT", 3306))
     )
-
 @app.route('/')
 def home():
     return jsonify({"message": "AirManage API is running!"})
